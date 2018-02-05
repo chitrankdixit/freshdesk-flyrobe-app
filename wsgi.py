@@ -1,4 +1,4 @@
-from app import freshdesk_app
+from freshdesk_app import app
 
 if __name__ == "__main__":
     app.run()
