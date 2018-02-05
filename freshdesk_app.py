@@ -14,6 +14,10 @@ a = API('flyrobe.freshdesk.com', 'TDLf4uy3QM7YEqMrWHo0', version=2)
 app = Flask(__name__)
 api = Api(app)
 
+@app.route('/test/')
+def test():
+    return "Its working , Yay"
+
 @app.route('/fetch/ticket/v1/')
 def data():
     # here we want to get the value of order_id (i.e. ?order_id=some-value)
