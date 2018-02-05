@@ -53,7 +53,7 @@ def conversation():
 @app.route('/fetch/proforma/v1/')
 def ticket_data():
     ticket_id = request.args.get('id')
-    ticket_current = a.tickets.get_ticket(57862)
+    ticket_current = a.tickets.get_ticket(int(ticket_id))
     regex = '[MmFf][A-Za-z][RrEe]\s*?([0-9]){6}[A-Za-z]?[0-9]?[0-9]?'
     search_string = ticket_current.description + ticket_current.description_text + ticket_current.subject
     matched = re.finditer(regex, search_string)
