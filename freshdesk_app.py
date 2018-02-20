@@ -37,7 +37,7 @@ def data():
 @app.route('/escalation/push/v1/')
 def conversation():
     ticket_id = request.args.get('id')
-    ticket = a.tickets.get_ticket(57862)
+    ticket = a.tickets.get_ticket(ticket_id)
     conv = requests.get('https://flyrobe.freshdesk.com/api/v2/tickets/57862/conversations', auth=('TDLf4uy3QM7YEqMrWHo0', 'test'))
     conv_data = conv.json()
     counter = 1
@@ -45,7 +45,7 @@ def conversation():
         if each["support_email"] != 'support@flyrobe.freshdesk.com':
             counter += 1
     if counter >= 3:
-        ticket = a.tickets.update_ticket(57862, group_id = 9000169467)
+        ticket = a.tickets.update_ticket(ticket_id, group_id = 9000169467)
 
     return "Pushed to escalation"
 
@@ -70,8 +70,9 @@ def ticket_data():
                 break
     ticket_current.order_id = list(set(ticket_current.order_id))
     ticket_current.custom_fields["cf_proforma_invoice_id"] = ";".join(ticket_current.order_id)
-    ticket_current = a.tickets.update_ticket(ticket_current.id,
-                                 custom_fields = {"cf_proforma_invoice_id" : ticket_current.custom_fields['cf_proforma_invoice_id']})
+    if not ticket_current.custom_fields["cf_proforma_invoice_id"]:
+        ticket_current = a.tickets.update_ticket(ticket_current.id,
+                                custom_fields = {"cf_proforma_invoice_id" : ticket_current.custom_fields['cf_proforma_invoice_id']})
 
     return "The post is succussful"
 
